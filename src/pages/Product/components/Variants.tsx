@@ -1,6 +1,7 @@
 import Skeleton from "@mui/material/Skeleton";
 
 const Variants: React.FC = () => {
+  // create empty array have 4 items
   const arr = Array(Math.floor(4)).fill(0);
   return (
     <div className="flex-wrap flex justify-between w-full relative">

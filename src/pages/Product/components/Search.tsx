@@ -12,13 +12,19 @@ const Search: React.FC<ISearch> = ({ handleSearch }) => {
   const debounced = useDebounce(searchValue, 500);
 
   useEffect(() => {
+    // pass search input to search callback
     handleSearch(debounced);
   }, [debounced]);
 
-  const handleChangeSearchValue = useCallback((e: any) => {
-    const value = e?.target?.value;
-    setSearchValue(value);
-  }, []);
+  const handleChangeSearchValue = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      //get value into search input
+      const value = e?.target?.value;
+      //set search state
+      setSearchValue(value);
+    },
+    []
+  );
 
   return (
     <div className="sticky z-10 top-16 w-full bg-white py-2 px-2">

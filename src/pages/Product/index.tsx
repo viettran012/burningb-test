@@ -12,6 +12,7 @@ const Page: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isFull, setIsFull] = useState<boolean>(false);
 
+  // create params state
   const [params, setParams] = useState<IProductParams>({
     limit: 20,
     skip: 0,
@@ -22,6 +23,7 @@ const Page: React.FC = () => {
     async (params_: IProductParams) => {
       try {
         setIsLoading(true);
+        //await product data data
         const fb = params_?.q
           ? await productServices.search({
               params: { ...params_, q: params_?.q },
@@ -31,7 +33,9 @@ const Page: React.FC = () => {
 
         const products = fb?.products;
         if (products?.length) {
+          // set product state
           setProductList([...productList, ...products]);
+          // set params state
           setParams((preState) => ({
             ...preState,
             skip: params_?.skip / preState.limit + 1,
@@ -47,14 +51,13 @@ const Page: React.FC = () => {
 
   const handleOnScroll = useCallback(() => {
     const offsetHeight = document.documentElement.offsetHeight;
+    // check if scroll to bottom page, it will return true
     const isBottom =
       offsetHeight - (window.innerHeight + document.documentElement.scrollTop) <
         bottomLimit &&
       !isLoading &&
       !isFull;
     if (isBottom) {
-      console.log("call");
-
       getProductList({
         ...params,
         skip: params?.skip * 20,
@@ -63,7 +66,7 @@ const Page: React.FC = () => {
   }, [isLoading]);
 
   const handleSearch = useCallback(async (searchValue: string) => {
-    console.log("ok");
+    //set init state , clear product list state
     getProductList({
       ...params,
       skip: 0,
@@ -86,7 +89,9 @@ const Page: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    //add event scroll
     window.addEventListener("scroll", handleOnScroll);
+    // remove event scroll when unmount
     return () => window.removeEventListener("scroll", handleOnScroll);
   }, [isLoading]);
 
@@ -96,7 +101,7 @@ const Page: React.FC = () => {
       <div className="flex items-center	justify-center">
         <div className="w-full flex-wrap flex justify-between py-3">
           {productList?.length
-            ? productList?.map((product: any, index: any) => {
+            ? productList?.map((product, index) => {
                 return <ProductCard key={index} product={product} />;
               })
             : !isLoading && (
