@@ -1,6 +1,11 @@
 import Rating from "../Rating";
+import { IProduct } from "../../configs/types";
 
-function ProductCard({ product }: any) {
+interface IProductCard {
+  product: IProduct;
+}
+
+const ProductCard: React.FC<IProductCard> = ({ product }) => {
   return (
     <div className="flex flex-col px-2 py-2 rounded w-49/100 h-96 overflow-hidden mb-2 bg-white cursor-pointer shadow-md transition ease-in-out hover:scale-102">
       <div className="grow overflow-hidden">
@@ -23,6 +28,6 @@ function ProductCard({ product }: any) {
       </div>
     </div>
   );
-}
+};
 
 export default ProductCard;

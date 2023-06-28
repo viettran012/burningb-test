@@ -1,4 +1,4 @@
-function Loader() {
+const Loader: React.FC = () => {
   return (
     <div role="status">
       <svg
@@ -20,6 +20,6 @@ function Loader() {
       <span className="sr-only">Loading...</span>
     </div>
   );
-}
+};
 
 export default Loader;

@@ -1,9 +1,14 @@
 import { CiSearch } from "react-icons/ci";
 import useDebounce from "../../../hooks/useDebounce";
 import { useState, useEffect, useCallback } from "react";
+import { Type } from "typescript";
 
-function Search({ handleSearch }: { handleSearch: any }) {
-  const [searchValue, setSearchValue] = useState("");
+interface ISearch {
+  handleSearch: (a: string) => {};
+}
+
+const Search: React.FC<ISearch> = ({ handleSearch }) => {
+  const [searchValue, setSearchValue] = useState<string>("");
   const debounced = useDebounce(searchValue, 500);
 
   useEffect(() => {
@@ -25,9 +30,7 @@ function Search({ handleSearch }: { handleSearch: any }) {
           placeholder="Search products"
         />
         <div
-          onClick={() => {
-            handleSearch(searchValue);
-          }}
+          onClick={() => handleSearch(searchValue)}
           className="h-10 w-10 bg-slate-400 text-white cursor-pointer text-xl flex items-center justify-center hover:bg-slate-600 transition ease-in-out"
         >
           <CiSearch />
@@ -35,6 +38,6 @@ function Search({ handleSearch }: { handleSearch: any }) {
       </div>
     </div>
   );
-}
+};
 
 export default Search;

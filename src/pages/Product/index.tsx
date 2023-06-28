@@ -1,27 +1,25 @@
 import { useEffect, useState, useCallback } from "react";
 import productServices from "../../services/productServices";
-import { productParams } from "../../configs/types";
-import Loader from "../../components/Loader";
+import { IProduct, IProductParams } from "../../configs/types";
 import ProductCard from "../../components/ProductCard";
 import Variants from "./components/Variants";
 import Search from "./components/Search";
-import { TbMoodEmpty } from "react-icons/tb";
 
 const bottomLimit = 100;
 
-function Page() {
-  const [productList, setProductList]: any = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isFull, setIsFull] = useState(false);
+const Page: React.FC = () => {
+  const [productList, setProductList] = useState<Array<IProduct>>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isFull, setIsFull] = useState<boolean>(false);
 
-  const [params, setParams] = useState({
+  const [params, setParams] = useState<IProductParams>({
     limit: 20,
     skip: 0,
     q: "",
   });
 
   const getProductList = useCallback(
-    async (params_: productParams) => {
+    async (params_: IProductParams) => {
       try {
         setIsLoading(true);
         const fb = params_?.q
@@ -32,10 +30,9 @@ function Page() {
         if (!fb) return;
 
         const products = fb?.products;
-        console.log(params_);
         if (products?.length) {
           setProductList([...productList, ...products]);
-          setParams((preState: any) => ({
+          setParams((preState) => ({
             ...preState,
             skip: params_?.skip / preState.limit + 1,
           }));
@@ -65,7 +62,7 @@ function Page() {
     }
   }, [isLoading]);
 
-  const handleSearch = useCallback(async (searchValue: any) => {
+  const handleSearch = useCallback(async (searchValue: string) => {
     console.log("ok");
     getProductList({
       ...params,
@@ -106,7 +103,7 @@ function Page() {
                 <div className="py-7 h-80 flex-col w-full flex justify-center items-center">
                   <img className="h-full" src="/assest/icons/empty.png" />
                   <div className="py-3 text-xl text-gray-700 font-bold">
-                    Empty
+                    Not Found
                   </div>
                 </div>
               )}
@@ -115,6 +112,6 @@ function Page() {
       </div>
     </>
   );
-}
+};
 
 export default Page;

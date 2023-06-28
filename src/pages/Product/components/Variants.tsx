@@ -1,9 +1,7 @@
 import Skeleton from "@mui/material/Skeleton";
-import Stack from "@mui/material/Stack";
-import { Fragment } from "react";
 
-function Variants() {
-  const arr = Array.apply(null, Array(4)).map(function () {});
+const Variants: React.FC = () => {
+  const arr = Array(Math.floor(4)).fill(0);
   return (
     <div className="flex-wrap flex justify-between w-full relative">
       {arr.map((i, index): any => (
@@ -13,16 +11,6 @@ function Variants() {
             variant="rounded"
             width={"100%"}
             height={"100%"}
-            animation="wave"
-          />
-          <Skeleton
-            style={{
-              position: "absolute",
-              bottom: "102px",
-              left: "12px",
-              right: "12px",
-              top: "0px",
-            }}
             animation="wave"
           />
           <Skeleton
@@ -49,5 +37,5 @@ function Variants() {
       ))}
     </div>
   );
-}
+};
 export default Variants;

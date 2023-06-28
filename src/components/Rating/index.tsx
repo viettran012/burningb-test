@@ -1,10 +1,13 @@
-function Rating({ rating }: any) {
-  const ratingArr = Array.apply(null, Array(Math.floor(rating))).map(
-    function () {}
-  );
-  const ratingArrT = Array.apply(null, Array(5 - Math.floor(rating))).map(
-    function () {}
-  );
+import React from "react";
+
+interface Rating {
+  rating: number;
+}
+
+const Rating: React.FC<Rating> = ({ rating }) => {
+  const ratingArr = Array(Math.floor(rating)).fill(0);
+
+  const ratingArrT = Array(5 - Math.floor(rating)).fill(0);
   return (
     <div className="flex items-center">
       <p className="mr-1 text-sm font-medium text-gray-500 dark:text-gray-400">
@@ -37,6 +40,6 @@ function Rating({ rating }: any) {
       ))}
     </div>
   );
-}
+};
 
 export default Rating;

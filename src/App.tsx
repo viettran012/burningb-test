@@ -1,9 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import "./App.css";
 import Page from "./pages/Product";
 import MainLayout from "./layouts/main";
 
-function App() {
+const App: React.FC = () => {
   return (
     <Router>
       <div className="App flex items-center flex-col text-slate-800">
@@ -20,6 +19,6 @@ function App() {
       </div>
     </Router>
   );
-}
+};
 
 export default App;

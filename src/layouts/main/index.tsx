@@ -1,13 +1,17 @@
 import { ReactNode } from "react";
 import Header from "./components/Header";
 
-function MainLayout(props: { children: ReactNode }) {
+interface IManLayLout {
+  children: ReactNode;
+}
+
+const MainLayout: React.FC<IManLayLout> = ({ children }) => {
   return (
     <div className="max-w-xl w-full px-3">
       <Header></Header>
-      {props.children}
+      {children}
     </div>
   );
-}
+};
 
 export default MainLayout;
