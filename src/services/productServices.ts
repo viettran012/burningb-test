@@ -9,7 +9,9 @@ const productServices = {
   getList: function ({ params }: IParams) {
     const API = process.env.REACT_APP_MAIN_API;
     return get(
-      `${API}/products?limit=${params?.limit || 10}&skip=${params?.skip || 0}`
+      `${API}/products?limit=${params?.limit || 10}&skip=${
+        params?.skip * params?.limit || 0
+      }`
     );
   },
 
@@ -18,7 +20,7 @@ const productServices = {
     return get(
       `${API}/products/search?q=${params?.q || ""}&limit=${
         params?.limit || 10
-      }&skip=${params?.skip || 0}`
+      }&skip=${params?.skip * params?.limit || 0}`
     );
   },
 };

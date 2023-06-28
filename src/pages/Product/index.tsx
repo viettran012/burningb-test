@@ -35,58 +35,44 @@ const Page: React.FC = () => {
         if (products?.length) {
           // set product state
           setProductList([...productList, ...products]);
-          // set params state
-          setParams((preState) => ({
-            ...preState,
-            skip: params_?.skip / preState.limit + 1,
-          }));
         } else {
           setIsFull(true);
         }
         setIsLoading(false);
       } catch (error) {}
     },
-    [isLoading]
+    [params]
   );
+  const handleSearch = useCallback((searchValue: string) => {
+    //set state , clear product list state
+    setProductList([]);
+    setIsFull(false);
+    setParams({
+      ...params,
+      skip: 0,
+      q: searchValue,
+    });
+    return true;
+  }, []);
 
   const handleOnScroll = useCallback(() => {
     const offsetHeight = document.documentElement.offsetHeight;
     // check if scroll to bottom page, it will return true
-    const isBottom =
+    const isBotom =
       offsetHeight - (window.innerHeight + document.documentElement.scrollTop) <
-        bottomLimit &&
-      !isLoading &&
-      !isFull;
-    if (isBottom) {
-      getProductList({
+      bottomLimit;
+    const isValid = isBotom && !isLoading && !isFull;
+    if (isValid) {
+      setParams({
         ...params,
-        skip: params?.skip * 20,
+        skip: params?.skip + 1,
       });
     }
   }, [isLoading]);
 
-  const handleSearch = useCallback(async (searchValue: string) => {
-    //set init state , clear product list state
-    getProductList({
-      ...params,
-      skip: 0,
-      q: searchValue,
-    });
-
-    setParams({
-      ...params,
-      q: searchValue,
-    });
-    setIsFull(false);
-    setProductList([]);
-  }, []);
-
   useEffect(() => {
-    getProductList({
-      ...params,
-      skip: 0,
-    });
-  }, []);
+    getProductList(params);
+  }, [params]);
 
   useEffect(() => {
     //add event scroll

@@ -1,19 +1,21 @@
 import { CiSearch } from "react-icons/ci";
 import useDebounce from "../../../hooks/useDebounce";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, memo, useRef } from "react";
 import { Type } from "typescript";
 
 interface ISearch {
-  handleSearch: (a: string) => {};
+  handleSearch: (searchValue: string) => {};
 }
 
 const Search: React.FC<ISearch> = ({ handleSearch }) => {
+  const isFistMount = useRef<boolean>(true);
   const [searchValue, setSearchValue] = useState<string>("");
   const debounced = useDebounce(searchValue, 500);
 
   useEffect(() => {
     // pass search input to search callback
-    handleSearch(debounced);
+    if (!isFistMount?.current) handleSearch(debounced);
+    isFistMount.current = false;
   }, [debounced]);
 
   const handleChangeSearchValue = useCallback(
@@ -46,4 +48,4 @@ const Search: React.FC<ISearch> = ({ handleSearch }) => {
   );
 };
 
-export default Search;
+export default memo(Search);
